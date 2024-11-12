@@ -1,8 +1,8 @@
 package com.globant.pages;
 
 import com.globant.utils.Exceptions.CartPageException;
-import com.globant.utils.Exceptions.CheckoutStepOnePageException;
 import com.globant.utils.basePage.BasePage;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -25,7 +25,12 @@ public class CartPage extends BasePage {
             throw new CartPageException(String.format("Error in cart page: %s", e.getMessage()));
         }
         checkoutButton.click();
-        return new CheckoutStepOnePage(super.getDriver());
+        try {
+            checkoutButton.click();
+            throw new CartPageException("The cart page couldn't change");
+        } catch (NoSuchElementException e) {
+            return new CheckoutStepOnePage(super.getDriver());
+        }
     }
 
     public HomePage goBackToHomePage() {

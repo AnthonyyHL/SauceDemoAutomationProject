@@ -2,8 +2,7 @@ package com.globant.pages;
 
 import com.globant.utils.Exceptions.CheckoutStepOnePageException;
 import com.globant.utils.basePage.BasePage;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 
 public class CheckoutStepOnePage extends BasePage {
@@ -19,7 +18,7 @@ public class CheckoutStepOnePage extends BasePage {
     @FindBy(id="continue")
     private WebElement continueButton;
 
-    @FindBy(css=".checkout_buttons > #cancel")
+    @FindBy(id="cancel")
     private WebElement cancelButton;
 
     public CheckoutStepOnePage(WebDriver driver) {
@@ -40,18 +39,26 @@ public class CheckoutStepOnePage extends BasePage {
 
     public CheckoutStepTwoPage setPurchaseInfo() throws CheckoutStepOnePageException {
         setPersonalInfo("testFirstname", "testLastname", "0000");
+
         try {
             waitToBeClickeable(continueButton);
         } catch (Exception e) {
             throw new CheckoutStepOnePageException(String.format("Error in checkout step one page: %s", e.getMessage()));
         }
+
         continueButton.click();
-        return new CheckoutStepTwoPage(super.getDriver());
+
+        try {
+            continueButton.click();
+            throw new CheckoutStepOnePageException("The checkout step one page couldn't change");
+        } catch (NoSuchElementException e) {
+            return new CheckoutStepTwoPage(super.getDriver());
+        }
     }
 
-    public HomePage goBackToHomePage() {
+    public CartPage goBackToCartPage() {
         waitToBeClickeable(cancelButton);
         cancelButton.click();
-        return new HomePage(super.getDriver());
+        return new CartPage(super.getDriver());
     }
 }
