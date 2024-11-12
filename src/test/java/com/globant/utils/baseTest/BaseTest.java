@@ -1,5 +1,6 @@
 package com.globant.utils.baseTest;
 
+import com.globant.pages.LoginPage;
 import com.globant.utils.DriverManager;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -18,6 +19,10 @@ public class BaseTest {
 
     public void navigateTo(String url) {
         driver.getDriver().get(url);
+    }
+
+    public LoginPage loadFirstPage() {
+        return new LoginPage(driver.getDriver());
     }
 
     @AfterClass

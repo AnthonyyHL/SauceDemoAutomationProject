@@ -1,5 +1,6 @@
 package com.globant.pages;
 
+import com.globant.utils.Exceptions.HomePageException;
 import com.globant.utils.basePage.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -16,12 +17,16 @@ public class HomePage extends BasePage {
         super(driver);
     }
 
-    public void clickHamburgerButton() {
-        waitToBeClickeable(hamburgerButton);
+    public void clickHamburgerButton() throws HomePageException {
+        try {
+            waitToBeClickeable(hamburgerButton);
+        } catch (Exception e) {
+            throw new HomePageException(String.format("Error in home page: %s", e.getMessage()));
+        }
         hamburgerButton.click();
     }
 
-    public LoginPage logout() {
+    public LoginPage logout() throws HomePageException {
         clickHamburgerButton();
         wait(3);
         logoutButton.click();
