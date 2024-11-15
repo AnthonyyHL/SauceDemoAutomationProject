@@ -43,7 +43,7 @@ public class HomePage extends BasePage {
 
     public void addToCart(int numberOfProducts) throws HomePageException {
         int nMax = Math.min(numberOfProducts, addToCartButtons.size());
-        for(int n = 0; n <= nMax; n++) {
+        for(int n = 0; n < nMax; n++) {
             try {
                 waitToBeClickeable(addToCartButtons.get(n));
             } catch (Exception e) {

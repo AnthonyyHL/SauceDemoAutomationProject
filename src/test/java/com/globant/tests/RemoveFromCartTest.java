@@ -7,30 +7,25 @@ import com.globant.utils.baseTest.BaseTest;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-public class CheckoutTest extends BaseTest {
+public class RemoveFromCartTest extends BaseTest {
     @Test(dataProvider = "data-provider", dataProviderClass = Data.class)
-    public void checkoutTest(String[] credentials) throws HomePageException {
+    public void removeFromCartTest(String[] credentials) throws HomePageException {
         SoftAssert softAssert = new SoftAssert();
 
         LoginPage loginPage;
         HomePage homePage = null;
         CartPage cartPage = null;
-        CheckoutStepOnePage checkoutStepOnePage = null;
-        CheckoutStepTwoPage checkoutStepTwoPage = null;
-        CheckoutCompletePage checkoutCompletePage = null;
         try {
             loginPage = loadFirstPage();
             homePage = loginPage.login(credentials[0], credentials[1]);
-            homePage.addToCart(1);
+            homePage.addToCart(3);
             cartPage = homePage.openCart();
-            checkoutStepOnePage = cartPage.goToCheckoutStepOne();
-            checkoutStepTwoPage = checkoutStepOnePage.setPurchaseInfo();
-            checkoutCompletePage = checkoutStepTwoPage.confirmInfo();
+            cartPage.removeFromCart();
 
-            softAssert.assertTrue(checkoutCompletePage.isOrderCreatedSuccessfully("Thank you for your order!"),
+            softAssert.assertTrue(cartPage.isCartEmpty(),
                     "Checkout failed for user " + credentials[0]);
 
-            homePage = checkoutCompletePage.goBackToHomePage();
+            homePage = cartPage.goBackToHomePage();
             loginPage = homePage.logout();
         } catch (LoginPageException e) {
             softAssert.fail("Failure for user " + credentials[0] + " - " + e.getMessage());
@@ -39,15 +34,6 @@ public class CheckoutTest extends BaseTest {
             softAssert.fail("Failure for user " + credentials[0] + " - " + e.getMessage());
         } catch (CartPageException e) {
             homePage = cartPage.goBackToHomePage();
-            loginPage = homePage.logout();
-            softAssert.fail("Failure for user " + credentials[0] + " - " + e.getMessage());
-        } catch (CheckoutStepOnePageException e) {
-            cartPage = checkoutStepOnePage.goBackToCartPage();
-            homePage = cartPage.goBackToHomePage();
-            loginPage = homePage.logout();
-            softAssert.fail("Failure for user " + credentials[0] + " - " + e.getMessage());
-        } catch (CheckoutStepTwoPageException e) {
-            homePage = checkoutStepTwoPage.goBackToHomePage();
             loginPage = homePage.logout();
             softAssert.fail("Failure for user " + credentials[0] + " - " + e.getMessage());
         } catch (Exception e) {
