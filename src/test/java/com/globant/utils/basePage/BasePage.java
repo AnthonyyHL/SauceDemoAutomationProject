@@ -26,7 +26,7 @@ public class BasePage {
         return wait;
     }
 
-    public void waitToBeClickeable(WebElement element) {
+    public void waitToBeClickable(WebElement element) {
         wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 

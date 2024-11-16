@@ -34,18 +34,22 @@ public class HomePage extends BasePage {
 
     public void clickHamburgerButton() throws HomePageException {
         try {
-            waitToBeClickeable(hamburgerButton);
+            waitToBeClickable(hamburgerButton);
         } catch (Exception e) {
             throw new HomePageException(String.format("Error in home page: %s", e.getMessage()));
         }
         hamburgerButton.click();
     }
 
+    /**
+     * Iterates the number (established as a parameter) of products in {@link HomePage} and add it to {@link CartPage}
+     * @throws HomePageException If an event does not occur as expected
+     */
     public void addToCart(int numberOfProducts) throws HomePageException {
         int nMax = Math.min(numberOfProducts, addToCartButtons.size());
         for(int n = 0; n < nMax; n++) {
             try {
-                waitToBeClickeable(addToCartButtons.get(n));
+                waitToBeClickable(addToCartButtons.get(n));
             } catch (Exception e) {
                 throw new HomePageException(String.format("Error in home page: %s", e.getMessage()));
             }
@@ -53,9 +57,14 @@ public class HomePage extends BasePage {
         }
     }
 
+    /**
+     * Opens {@link CartPage} after clicking on Cart Button
+     * @return {@link CartPage} instance
+     * @throws HomePageException If an event does not occur as expected
+     */
     public CartPage openCart() throws HomePageException {
         try {
-            waitToBeClickeable(cartButton);
+            waitToBeClickable(cartButton);
         } catch (Exception e) {
             throw new HomePageException(String.format("Error in home page: %s", e.getMessage()));
         }
@@ -63,13 +72,18 @@ public class HomePage extends BasePage {
         return new CartPage(super.getDriver());
     }
 
+    /**
+     * Opens {@link LoginPage} after clicking on Logout Button in the navigation bar
+     * @return {@link LoginPage} instance
+     * @throws HomePageException If an event does not occur as expected or user can not be redirected to {@link LoginPage}
+     */
     public LoginPage logout() throws HomePageException {
         clickHamburgerButton();
-        wait(3);
+        waitToBeVisible(logoutButton);
         logoutButton.click();
         try {
             logoutButton.click();
-            throw new HomePageException("The home page couldn't logout");
+            throw new HomePageException("User couldn't logout");
         } catch (NoSuchElementException e) {
             return new LoginPage(super.getDriver());
         }

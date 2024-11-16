@@ -4,7 +4,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 
 public class DriverManager {
-    private WebDriver driver;
+    private final WebDriver driver;
 
     public DriverManager(String browser) {
         switch (browser) {

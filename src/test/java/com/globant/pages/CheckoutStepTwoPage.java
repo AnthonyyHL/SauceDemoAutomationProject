@@ -18,9 +18,15 @@ public class CheckoutStepTwoPage extends BasePage {
         super(driver);
     }
 
+    /**
+     * Confirms the information and finishes checkout,
+     * then redirects user from {@link CheckoutStepTwoPage} to {@link CheckoutCompletePage}.
+     * @return {@link CheckoutCompletePage} instance
+     * @throws {@link CheckoutStepTwoPageException} If an event does not occur as expected or user can not be redirected to {@link CheckoutCompletePage}
+     */
     public CheckoutCompletePage confirmInfo() throws CheckoutStepTwoPageException {
         try {
-            waitToBeClickeable(finishButton);
+            waitToBeClickable(finishButton);
         } catch (Exception e) {
             throw new CheckoutStepTwoPageException(String.format("Error in checkout step two page: %s", e.getMessage()));
         }
@@ -33,8 +39,12 @@ public class CheckoutStepTwoPage extends BasePage {
         }
     }
 
+    /**
+     * Redirects user from {@link CheckoutStepTwoPage} to {@link HomePage}
+     * @return {@link HomePage} instance
+     */
     public HomePage goBackToHomePage() {
-        waitToBeClickeable(cancelButton);
+        waitToBeClickable(cancelButton);
         cancelButton.click();
         return new HomePage(super.getDriver());
     }

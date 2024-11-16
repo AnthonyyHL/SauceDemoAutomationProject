@@ -29,9 +29,14 @@ public class CartPage extends BasePage {
         super(driver);
     }
 
+    /**
+     * Redirects user from {@link CartPage} to {@link CheckoutStepOnePage}.
+     * @return {@link CheckoutStepOnePage} instance
+     * @throws {@link CartPageException} If an event does not occur as expected or user can not be redirected to {@link CheckoutStepOnePage}
+     */
     public CheckoutStepOnePage goToCheckoutStepOne() throws CartPageException {
         try {
-            waitToBeClickeable(checkoutButton);
+            waitToBeClickable(checkoutButton);
         } catch (Exception e) {
             throw new CartPageException(String.format("Error in cart page: %s", e.getMessage()));
         }
@@ -44,16 +49,24 @@ public class CartPage extends BasePage {
         }
     }
 
+    /**
+     * Redirects user from {@link CartPage} to {@link HomePage}
+     * @return {@link HomePage} instance
+     */
     public HomePage goBackToHomePage() {
-        waitToBeClickeable(continueShoppingButton);
+        waitToBeClickable(continueShoppingButton);
         continueShoppingButton.click();
         return new HomePage(super.getDriver());
     }
 
+    /**
+     * Iterates the products in the {@link CartPage} and clicks on the remove button of every of them
+     * @throws {@link CartPageException} if one of the remove buttons is not clickable
+     */
     public void removeFromCart() throws CartPageException {
         for (WebElement removeCartProductButton : removeCartProductButtons) {
             try {
-                waitToBeClickeable(removeCartProductButton);
+                waitToBeClickable(removeCartProductButton);
                 removeCartProductButton.click();
             } catch (Exception e) {
                 throw new CartPageException(String.format("Error cleaning cart: %s", e.getMessage()));

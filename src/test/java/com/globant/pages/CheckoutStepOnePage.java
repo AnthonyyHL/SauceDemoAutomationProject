@@ -25,6 +25,10 @@ public class CheckoutStepOnePage extends BasePage {
         super(driver);
     }
 
+    /**
+     * Sets First Name, Last Name and Postal Code for {@link CheckoutStepOnePage}.
+     *
+     */
     public void setPersonalInfo(String firstname, String lastname, String postalCode) {
 
         waitToBeVisible(firstNameInput);
@@ -37,17 +41,20 @@ public class CheckoutStepOnePage extends BasePage {
         postalCodeInput.sendKeys(postalCode);
     }
 
+    /**
+     * Calls {@code setPersonalInfo()} and submit the information
+     * @return {@link CheckoutStepTwoPage} instance
+     * @throws CheckoutStepOnePageException If an event does not occur as expected or user can not be redirected to {@link CheckoutStepTwoPage}
+     */
     public CheckoutStepTwoPage setPurchaseInfo() throws CheckoutStepOnePageException {
         setPersonalInfo("testFirstname", "testLastname", "0000");
 
         try {
-            waitToBeClickeable(continueButton);
+            waitToBeClickable(continueButton);
         } catch (Exception e) {
             throw new CheckoutStepOnePageException(String.format("Error in checkout step one page: %s", e.getMessage()));
         }
-
         continueButton.click();
-
         try {
             continueButton.click();
             throw new CheckoutStepOnePageException("The checkout step one page couldn't change");
@@ -56,8 +63,12 @@ public class CheckoutStepOnePage extends BasePage {
         }
     }
 
+    /**
+     * Redirects user from {@link CheckoutStepOnePage} to {@link CartPage}
+     * @return {@link CartPage} instance
+     */
     public CartPage goBackToCartPage() {
-        waitToBeClickeable(cancelButton);
+        waitToBeClickable(cancelButton);
         cancelButton.click();
         return new CartPage(super.getDriver());
     }

@@ -19,20 +19,27 @@ public class LoginPage extends BasePage {
         super(driver);
     }
 
-    public void setUsername(String username) {
+    private void setUsername(String username) {
         usernameInput.clear();
         usernameInput.sendKeys(username);
     }
 
-    public void setPassword(String password) {
+    private void setPassword(String password) {
         passwordInput.clear();
         passwordInput.sendKeys(password);
     }
 
+    /**
+     * Performs login with provided user credentials, then opens {@link CartPage} after clicking on Cart Button.
+     * @param username User username
+     * @param password User password
+     * @return {@link CartPage} instance
+     * @throws LoginPageException If user can not be logged in due to an event that does not occur as expected
+     */
     public HomePage login(String username, String password) throws LoginPageException {
         setUsername(username);
         setPassword(password);
-        waitToBeClickeable(loginButton);
+        waitToBeClickable(loginButton);
         loginButton.click();
         try {
             loginButton.click();
@@ -43,6 +50,11 @@ public class LoginPage extends BasePage {
 
     }
 
+    /**
+     * Verifies if the current page is {@link LoginPage} by comparing Login Button text
+     * @param buttonLabel Expected button label text on Login button
+     * @return boolean True if texts match, false otherwise
+     */
     public boolean isSuccessfullyLoggedOut(String buttonLabel) {
         waitToBeVisible(loginButton);
         return loginButton.isDisplayed() &&

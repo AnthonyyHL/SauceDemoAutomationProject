@@ -9,7 +9,7 @@ import org.testng.asserts.SoftAssert;
 
 public class RemoveFromCartTest extends BaseTest {
     @Test(dataProvider = "data-provider", dataProviderClass = Data.class)
-    public void removeFromCartTest(String[] credentials) throws HomePageException {
+    public void removeFromCartTest(String username, String password) throws HomePageException {
         SoftAssert softAssert = new SoftAssert();
 
         LoginPage loginPage;
@@ -17,27 +17,27 @@ public class RemoveFromCartTest extends BaseTest {
         CartPage cartPage = null;
         try {
             loginPage = loadFirstPage();
-            homePage = loginPage.login(credentials[0], credentials[1]);
+            homePage = loginPage.login(username, password);
             homePage.addToCart(3);
             cartPage = homePage.openCart();
             cartPage.removeFromCart();
 
             softAssert.assertTrue(cartPage.isCartEmpty(),
-                    "Checkout failed for user " + credentials[0]);
+                    "Checkout failed for user " + username);
 
             homePage = cartPage.goBackToHomePage();
             loginPage = homePage.logout();
         } catch (LoginPageException e) {
-            softAssert.fail("Failure for user " + credentials[0] + " - " + e.getMessage());
+            softAssert.fail("Failure for user " + username + " - " + e.getMessage());
         } catch (HomePageException e) {
             loginPage = homePage.logout();
-            softAssert.fail("Failure for user " + credentials[0] + " - " + e.getMessage());
+            softAssert.fail("Failure for user " + username + " - " + e.getMessage());
         } catch (CartPageException e) {
             homePage = cartPage.goBackToHomePage();
             loginPage = homePage.logout();
-            softAssert.fail("Failure for user " + credentials[0] + " - " + e.getMessage());
+            softAssert.fail("Failure for user " + username + " - " + e.getMessage());
         } catch (Exception e) {
-            softAssert.fail("Unexpected failure for user " + credentials[0] + " - " + e.getMessage());
+            softAssert.fail("Unexpected failure for user " + username + " - " + e.getMessage());
         }
 
         softAssert.assertAll();

@@ -4,9 +4,9 @@
 
     <test name="Swag Labs Test">
         <classes>
-            <class name="com.globant.tests.LogoutTest"/>
             <class name="com.globant.tests.PurchaseTest"/>
             <class name="com.globant.tests.RemoveFromCartTest"/>
+            <class name="com.globant.tests.LogoutTest"/>
         </classes>
     </test>
 </suite>
