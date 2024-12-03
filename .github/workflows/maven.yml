@@ -13,6 +13,14 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch:
+    inputs:
+      browserName:
+        description: 'Browser type'
+        required: false
+        type: string
+        default: 'chrome'
+
 
 jobs:
   build:

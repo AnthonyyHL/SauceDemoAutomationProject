@@ -6,7 +6,8 @@ import org.openqa.selenium.WebDriver;
 public class DriverManager {
     private final WebDriver driver;
 
-    public DriverManager(String browser) {
+    public DriverManager(String browserType) {
+        String browser = browserType.toLowerCase();
         switch (browser) {
             case "chrome":
                 driver = WebDriverManager
