@@ -13,7 +13,7 @@ A web automation framework designed to test various functionalities on the [Sauc
     - When these custom exceptions are thrown, the framework initiates a specific flow that redirects to the *Login Page*, allowing for recovery and continuity in testing.
 
 2. *JDK Version*
-    - Built and tested using *OpenJDK 23*.
+    - Built and tested using *OpenJDK 17*.
 
 3. *Driver Management*
     - This framework utilizes *WebDriverManager*, eliminating the need to manually download browser drivers.
