@@ -4,18 +4,16 @@ import com.globant.pages.LoginPage;
 import com.globant.utils.DriverManager;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Parameters;
 
 public class BaseTest {
     DriverManager driver;
 
     @BeforeClass(alwaysRun = true)
-    @Parameters({"url"})
-    public void setupDriver(String url) {
+    public void setupDriver() {
         String browser = System.getProperty("browserName");
         driver = new DriverManager(browser == null ? "Chrome" : browser);
         driver.getDriver().manage().window().maximize();
-        navigateTo(url);
+        navigateTo("https://www.saucedemo.com/");
     }
 
     public void navigateTo(String url) {
