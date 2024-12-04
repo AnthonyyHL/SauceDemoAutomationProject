@@ -10,9 +10,10 @@ public class BaseTest {
     DriverManager driver;
 
     @BeforeClass(alwaysRun = true)
-    @Parameters({"browser", "url"})
-    public void setupDriver(String browser, String url) {
-        driver = new DriverManager(browser);
+    @Parameters({"url"})
+    public void setupDriver(String url) {
+        String browser = System.getProperty("browserName");
+        driver = new DriverManager(browser == null ? "Chrome" : browser);
         driver.getDriver().manage().window().maximize();
         navigateTo(url);
     }
